@@ -7,13 +7,7 @@ public static class Commands
 {
     public static void DaysUntilOff(Action<string> writer, DateTime day, IWorkingDayCultureInfo cultureInfo)
     {
-        int days = 0;
-        while (day.IsWorkingDay(cultureInfo))
-        {
-            days++;
-            day = day.AddDays(1);
-        }
-
+        var days = CalculateDaysUntilOff(day, cultureInfo);
         if (days > 0)
         {
             writer($"{days} more days until off");
@@ -39,11 +33,43 @@ public static class Commands
 
         if (!day.IsWorkingDay(cultureInfo))
         {
-            writer($"It's {day.DayOfWeek}. Have some rest.");
+            writer($"It's {day.DayOfWeek}. Enjoy some rest.");
             return;
         }
 
-        writer($"It's a normal {day.DayOfWeek}");
-        return;
+        var daysUntilOff = CalculateDaysUntilOff(day, cultureInfo);
+        switch (daysUntilOff)
+        {
+            case 6:
+                writer("It's a long week, full of opportunities!");
+                return;
+            case 5:
+                writer("Beginning of a new week, make it count!");
+                return;
+            case 4:
+                writer("Still some way to go, keep it up!");
+                return;
+            case 3:
+                writer("You're half way there.");
+                return;
+            case 2:
+                writer("It's almost time to rest.");
+                return;
+            case 1:
+                writer("The last mile. Bring it home!");
+                return;
+        }
+    }
+
+    private static int CalculateDaysUntilOff(DateTime day, IWorkingDayCultureInfo cultureInfo)
+    {
+        int days = 0;
+        while (day.IsWorkingDay(cultureInfo))
+        {
+            days++;
+            day = day.AddDays(1);
+        }
+
+        return days;
     }
 }
