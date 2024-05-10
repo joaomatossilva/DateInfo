@@ -12,7 +12,12 @@
         <PackageProjectUrl>https://github.com/joaomatossilva/DateInfo</PackageProjectUrl>
         <PackageLicenseUrl>https://raw.githubusercontent.com/joaomatossilva/DateInfo/master/LICENSE</PackageLicenseUrl>
         <PackageTags>Holiday Date Calendar Workingday</PackageTags>
+        <PackageReadmeFile>Readme.md</PackageReadmeFile>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../Readme.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="DateTimeExtensions" Version="5.9.0" />
