@@ -9,7 +9,9 @@
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>dateinfo</ToolCommandName>
         <PackageOutputPath>./nupkg</PackageOutputPath>
-        <Version>0.0.1</Version>
+        <PackageProjectUrl>https://github.com/joaomatossilva/DateInfo</PackageProjectUrl>
+        <PackageLicenseUrl>https://raw.githubusercontent.com/joaomatossilva/DateInfo/master/LICENSE</PackageLicenseUrl>
+        <PackageTags>Holiday Date Calendar Workingday</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
