@@ -5,14 +5,28 @@ using DateTimeExtensions.WorkingDays;
 
 public static class Commands
 {
+    public static void ListHolidays(Action<string> writer, DateTime day, IWorkingDayCultureInfo cultureInfo)
+    {
+        var holidays = cultureInfo.GetHolidaysOfYear(day.Year).Select(x => new
+                {
+                    Holiday = x,
+                    Observance = x.GetInstance(day.Year)
+                })
+            .OrderBy(x => x.Observance);
+        foreach (var holiday in holidays)
+        {
+            writer($"{holiday.Observance:d} - {holiday.Holiday.Name}");
+        }
+    }
+
     public static void NextHoliday(Action<string> writer, DateTime day, IWorkingDayCultureInfo cultureInfo)
     {
 
         var holidays = cultureInfo.GetHolidaysOfYear(day.Year).Select(x => new
-            {
-                Holiday = x,
-                Observance = x.GetInstance(day.Year)
-            })
+                {
+                    Holiday = x,
+                    Observance = x.GetInstance(day.Year)
+                })
             .OrderBy(x => x.Observance);
 
         foreach (var holiday in holidays)

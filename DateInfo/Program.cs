@@ -19,8 +19,11 @@ c.AddCommand(daysUntilOffCommand);
 var todayCommand = AddCommand("today", "Some info about today", (day, culture) => Commands.Today(WriteOutput, day, culture), dayOption, localeOption);
 c.AddCommand(todayCommand);
 
-var nextCommand = AddCommand("next", "Show the next Holiday", (day, culture) => Commands.NextHoliday(WriteOutput, day, culture), dayOption, localeOption);
+var nextCommand = AddCommand("next", "Show the next holiday of the current year", (day, culture) => Commands.NextHoliday(WriteOutput, day, culture), dayOption, localeOption);
 c.AddCommand(nextCommand);
+
+var listCommand = AddCommand("list", "Show all holidays from current year", (day, culture) => Commands.ListHolidays(WriteOutput, day, culture), dayOption, localeOption);
+c.AddCommand(listCommand);
 
 c.AddOption(dayOption);
 c.AddOption(localeOption);
