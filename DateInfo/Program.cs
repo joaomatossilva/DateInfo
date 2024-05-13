@@ -1,5 +1,6 @@
 ﻿using System.CommandLine;
 using DateInfo;
+using DateTimeExtensions.WorkingDays;
 
 var c = new RootCommand();
 
@@ -15,18 +16,28 @@ daysUntilOffCommand.AddOption(localeOption);
 c.AddCommand(daysUntilOffCommand);
 */
 
-var todayCommand = new Command("today", "Some info about today");
-todayCommand.SetHandler((day, culture) => Commands.Today(WriteOutput, day, culture), new DayBinder(dayOption), new WorkingDayCultureInfoBinder(localeOption));
-todayCommand.AddOption(dayOption);
-todayCommand.AddOption(localeOption);
+var todayCommand = AddCommand("today", "Some info about today", (day, culture) => Commands.Today(WriteOutput, day, culture), dayOption, localeOption);
 c.AddCommand(todayCommand);
+
+var nextCommand = AddCommand("next", "Show the next Holiday", (day, culture) => Commands.NextHoliday(WriteOutput, day, culture), dayOption, localeOption);
+c.AddCommand(nextCommand);
 
 c.AddOption(dayOption);
 c.AddOption(localeOption);
 
 c.Invoke(args);
+return;
 
 static void WriteOutput(string text)
 {
     Console.WriteLine(text);
+}
+
+static Command AddCommand(string name, string description, Action<DateTime, IWorkingDayCultureInfo> handler, Option<string> dayOption, Option<string> localeOption)
+{
+    var command = new Command(name, description);
+    command.SetHandler(handler, new DayBinder(dayOption), new WorkingDayCultureInfoBinder(localeOption));
+    command.AddOption(dayOption);
+    command.AddOption(localeOption);
+    return command;
 }

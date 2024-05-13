@@ -31,3 +31,21 @@ You can also try to see other day other than the current day with `--day` option
 ```
 dateinfo today --locale pt-PT --day 2024-06-10
 ```
+
+### Commands
+
+#### Today
+
+Show some info about today
+
+```
+dateinfo today
+```
+
+#### Next Holiday
+
+Shows when is the next holiday of the current year
+
+```
+datetinfo next
+```

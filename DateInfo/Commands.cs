@@ -5,6 +5,28 @@ using DateTimeExtensions.WorkingDays;
 
 public static class Commands
 {
+    public static void NextHoliday(Action<string> writer, DateTime day, IWorkingDayCultureInfo cultureInfo)
+    {
+
+        var holidays = cultureInfo.GetHolidaysOfYear(day.Year).Select(x => new
+            {
+                Holiday = x,
+                Observance = x.GetInstance(day.Year)
+            })
+            .OrderBy(x => x.Observance);
+
+        foreach (var holiday in holidays)
+        {
+            if(holiday.Observance > day)
+            {
+                writer($"Next holiday is {holiday.Holiday.Name} on {holiday.Observance:d}");
+                return;
+            }
+        }
+
+        writer("There aren't more holidays this year");
+    }
+
     public static void DaysUntilOff(Action<string> writer, DateTime day, IWorkingDayCultureInfo cultureInfo)
     {
         var days = CalculateDaysUntilOff(day, cultureInfo);
