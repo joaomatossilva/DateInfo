@@ -1,11 +1,10 @@
 ﻿using System.CommandLine;
 using DateInfo;
-using DateTimeExtensions.WorkingDays;
+using DateInfo.Commands;
 
 var c = new RootCommand();
 
 var dayOption = new Option<string>("--day", "Day in YYYY-MM-DD format");
-
 var localeOption = new Option<string>("--locale", "Locale for holidays. Example: pt-PT");
 
 /* -- still unsure on this
@@ -16,13 +15,13 @@ daysUntilOffCommand.AddOption(localeOption);
 c.AddCommand(daysUntilOffCommand);
 */
 
-var todayCommand = AddCommand("today", "Some info about today", (day, culture) => Commands.Today(WriteOutput, day, culture), dayOption, localeOption);
+var todayCommand = AddCommand("today", "Some info about today", new Today(), dayOption, localeOption);
 c.AddCommand(todayCommand);
 
-var nextCommand = AddCommand("next", "Show the next holiday of the current year", (day, culture) => Commands.NextHoliday(WriteOutput, day, culture), dayOption, localeOption);
+var nextCommand = AddCommand("next", "Show the next holiday of the current year", new NextHoliday(), dayOption, localeOption);
 c.AddCommand(nextCommand);
 
-var listCommand = AddCommand("list", "Show all holidays from current year", (day, culture) => Commands.ListHolidays(WriteOutput, day, culture), dayOption, localeOption);
+var listCommand = AddCommand("list", "Show all holidays from current year", new ListHolidays(), dayOption, localeOption);
 c.AddCommand(listCommand);
 
 c.AddOption(dayOption);
@@ -31,15 +30,16 @@ c.AddOption(localeOption);
 c.Invoke(args);
 return;
 
+// to be reworked
 static void WriteOutput(string text)
 {
     Console.WriteLine(text);
 }
 
-static Command AddCommand(string name, string description, Action<DateTime, IWorkingDayCultureInfo> handler, Option<string> dayOption, Option<string> localeOption)
+static Command AddCommand(string name, string description, ICommand commandHandler, Option<string> dayOption, Option<string> localeOption)
 {
     var command = new Command(name, description);
-    command.SetHandler(handler, new DayBinder(dayOption), new WorkingDayCultureInfoBinder(localeOption));
+    command.SetHandler((day, culture) => commandHandler.Execute(WriteOutput, day, culture), new DayBinder(dayOption), new WorkingDayCultureInfoBinder(localeOption));
     command.AddOption(dayOption);
     command.AddOption(localeOption);
     return command;
