@@ -24,6 +24,9 @@ c.AddCommand(nextCommand);
 var listCommand = AddCommand("list", "Show all holidays from current year", new ListHolidays(), dayOption, localeOption);
 c.AddCommand(listCommand);
 
+var shellCommand = AddCommand("shell", "Show a small info for shell integration", new Shell(), dayOption, localeOption);
+c.AddCommand(shellCommand);
+
 c.AddOption(dayOption);
 c.AddOption(localeOption);
 

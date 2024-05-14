@@ -20,7 +20,7 @@ dateinfo today
 
 It will default for today, and using guessing your locale by the current Culture.
 
-If you're like me, that likes the computer in english but live in Portugal, there is a way to force a specific locale:
+If you're like me, that likes the computer in english but live in Portugal, there is a way to force a specific locale using the `locale` option:
 
 ```
 dateinfo today --locale pt-PT
@@ -54,4 +54,12 @@ Show all holidays of the current year
 
 ```
 datetinfo list
+```
+
+### Shell
+
+A small text/icons for shell integration
+
+```
+dateinfo shell
 ```
