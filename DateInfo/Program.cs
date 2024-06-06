@@ -1,6 +1,10 @@
 ﻿using System.CommandLine;
+using System.Text;
 using DateInfo;
 using DateInfo.Commands;
+
+//Initialize the console to be able to output unicode icons from NerdFont
+Console.OutputEncoding = Encoding.Unicode;
 
 var c = new RootCommand();
 
