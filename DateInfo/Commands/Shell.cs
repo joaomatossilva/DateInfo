@@ -9,12 +9,12 @@ public class Shell : ICommand
     {
         if (day.IsWorkingDay(cultureInfo))
         {
-            //
-            writer("\uf133");
+            //UTF: \uf133
+            writer("");
             return;
         }
 
-        //
-        writer("\uf273");
+        //UTF: \uf273
+        writer("");
     }
 }
